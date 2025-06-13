@@ -15,12 +15,36 @@
 <body>
   <div class="container">
     <h1>Регистрация</h1>
-    <form action="https://formspree.io/f/mgvykbld" method="POST">
-      <input type="text" name="name" placeholder="Ваше имя" required>
-      <input type="email" name="email" placeholder="Ваш email" required>
-      <button type="submit">Зарегистрироваться</button>
-    </form>
-    <p>После регистрации мы свяжемся с вами по email.</p>
+    <form id="my-form" action="https://formspree.io/f/your-form-id" method="POST">
+  <input type="text" name="name" placeholder="Ваше имя" required>
+  <input type="email" name="email" placeholder="Ваш email" required>
+  <button type="submit">Зарегистрироваться</button>
+</form>
+<p id="thank-you" style="display:none; color:green;">Спасибо за регистрацию!</p>
   </div>
+<script>
+  var form = document.getElementById('my-form');
+  var thankYou = document.getElementById('thank-you');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    var data = new FormData(form);
+    fetch(form.action, {
+      method: form.method,
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        form.style.display = 'none';
+        thankYou.style.display = 'block';
+      } else {
+        alert('Ошибка при отправке. Попробуйте ещё раз.');
+      }
+    }).catch(error => {
+      alert('Ошибка при отправке. Попробуйте ещё раз.');
+    });
+  });
+</script>
 </body>
 </html>
